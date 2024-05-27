@@ -1,14 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Weather Forecast</title>
-    <link rel="stylesheet" href="output.css">
-</head>
-<body>
-    <h1 class="text-3xl text-right">
-        Hello world!
-      </h1>
-</body>
+    <link rel="stylesheet" href="output.css" />
+  </head>
+  <body class="bg-gray-300">
+    <header class="bg-gray-800 text-white p-5 flex justify-between items-center">
+        <h1 class="text-white text-xl">Today's Weather</h1>
+        <button id="currentLocationBtn" class="text-sm bg-green-400 hover:bg-green-900 py-1 px-2 rounded">Current Location</button>
+    </header>
+  
+    <main>
+      <section class="flex flex-col">
+        <input type="text" id="citySearchField" class="border border--green-400 rounded-xl px-2 py-1 m-4 text-center" placeholder="Enter city name">
+        <button class="border w-20 rounded-xl p-1 bg-green-400 text-white self-center hover:bg-green-900">Search</button>
+      </section>
+    </main>
+  </body>
 </html>
