@@ -40,15 +40,14 @@ function updateRecentSearchDropDown() {
     // We are making sure there is always only one option and removing other options from dropdown list
     dropdown.length = 1;
 
-    // Applying tailwind hidden class to hide or unhide if we have recent searches in the array
-    if(recentSearch.length === 0) {
-        recentSearchContainer.classList.add("hidden");
-    } else {
-        recentSearchContainer.classList.remove("hidden");
-    }
     // Here we getting data from local storage and since the data is in the form of string seperated by commas we are splitting the string and storing in the array, to further process the array
     if(localStorage.getItem("recent") != null) {
         recentSearch = localStorage.getItem("recent").split(",");
+        // Removing the hidden class and making recent search dropdown appear if we have recent searches.
+        recentSearchContainer.classList.remove("hidden");
+    } else {
+        // Applying tailwind hidden class to hide the dropdown if we dont have recent searches in the array
+        recentSearchContainer.classList.add("hidden");
     }
     
     // For every searched city in the recentSearch array we are creating option element and appending it to the dropdown element
