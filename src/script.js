@@ -3,6 +3,9 @@ const searchBtn = document.getElementById("seachBtn");
 const clearSearchesBtn = document.getElementById("clearSearches");
 const dropdown = document.getElementById("recentCities");
 const recentSearchContainer = document.getElementById("recentSearchesContainer");
+const currentLocationBtn = document.getElementById("currentLocationBtn");
+
+const apiKey = "6d97913c5ae84c2440f0f66b96381f21";
 
 let recentSearch = [];
 
@@ -17,6 +20,7 @@ function getEnteredCity(event) {
     } else {
         console.log(searchField.value);
         addCityToRecentSearch(value);
+        fetchWeatherData(value);
     }
     
 }
@@ -72,3 +76,46 @@ window.addEventListener("load", (event) => {
     console.log("Loaded");
     updateRecentSearchDropDown();
   });
+
+function fetchWeatherData(city) {
+
+    url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
+
+    fetch(url)
+    .then(response => response.json())
+    .then(data => {
+        if(!data.ok){
+            if(data.cod == 404){
+                throw new Error("city not found");
+            }
+        } 
+        console.log(data);
+    })
+    .catch(error => {
+        alert(`Invalid city name: ${city}`);
+    })
+    
+}
+
+currentLocationBtn.addEventListener("click", fetchWeatherBaseOnLocation);
+async function fetchWeatherBaseOnLocation(event) {
+    const detectedLocation = await navigator.geolocation.getCurrentPosition(success, failure);
+
+    const lat = detectedLocation.coords.latitude;
+    const long = detectedLocation.coords.longitude;
+
+    const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&long${long}&appid=${apiKey}&units=metric`;
+
+    const response = await fetch(url);
+    const data = response.json();
+
+    console.log(data);
+}
+
+function success() {
+    console.log("Location detected");
+}
+
+function failure() {
+
+}
