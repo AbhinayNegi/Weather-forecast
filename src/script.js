@@ -119,3 +119,10 @@ async function success(position) {
 }
 
 function failure() {}
+
+// Selecting city from the recent search city dropdown list
+
+dropdown.addEventListener("change", (event) => {
+    const city = event.target.value;
+    fetchWeatherData(city);
+})
