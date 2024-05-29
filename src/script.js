@@ -124,5 +124,7 @@ function failure() {}
 
 dropdown.addEventListener("change", (event) => {
     const city = event.target.value;
-    fetchWeatherData(city);
+    if(city !== "Select a City") {
+        fetchWeatherData(city);
+    }
 })
