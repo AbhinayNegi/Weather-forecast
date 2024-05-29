@@ -8,6 +8,11 @@ const recentSearchContainer = document.getElementById(
 const currentLocationBtn = document.getElementById("currentLocationBtn");
 
 const apiKey = "6d97913c5ae84c2440f0f66b96381f21";
+const weatherIcon = document.getElementById("weatherIcon");
+const weatherDisplaySection = document.getElementById("displayWeather");
+const cityName = document.getElementById("cityName");
+const mainTemp = document.getElementById("temp");
+const weatherDesc = document.getElementById("desc");
 
 let recentSearch = [];
 
@@ -90,6 +95,7 @@ function fetchWeatherData(city) {
         }
       }
       addCityToRecentSearch(city);
+      displayWeatherData(data);
       console.log(data);
     })
     .catch((error) => {
@@ -106,16 +112,16 @@ function fetchWeatherBaseOnLocation(event) {
 }
 
 async function success(position) {
-    const lat = position.coords.latitude;
-    const long = position.coords.longitude;
-    console.log(lat);
-    console.log(long);
-    const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${long}&appid=${apiKey}&units=metric`;
-  
-    const response = await fetch(url);
-    const data = await response.json();
-  
-    console.log(data);
+  const lat = position.coords.latitude;
+  const long = position.coords.longitude;
+  console.log(lat);
+  console.log(long);
+  const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${long}&appid=${apiKey}&units=metric`;
+
+  const response = await fetch(url);
+  const data = await response.json();
+
+  console.log(data);
 }
 
 function failure() {}
@@ -123,8 +129,99 @@ function failure() {}
 // Selecting city from the recent search city dropdown list
 
 dropdown.addEventListener("change", (event) => {
-    const city = event.target.value;
-    if(city !== "Select a City") {
-        fetchWeatherData(city);
-    }
-})
+  const city = event.target.value;
+  if (city !== "Select a City") {
+    fetchWeatherData(city);
+  }
+});
+
+function displayWeatherData(data) {
+  // Creating array that represent different weather types code group like 2 for 200 - 232 code type
+  const groupCodes = [2, 3, 5, 6, 7, 8, 9];
+  currentWeatherGroupCode = 0;
+
+  // Getting the weather code
+  const weatherCode = data.weather[0].id;
+  // Special case if weather code is between 801 to 804 it will be reprsented by number 9
+  if (weatherCode > 800 && weatherCode <= 804) {
+    currentWeatherGroupCode = 9;
+  } else {
+    // We are getting the first digit from the weather code. For example 200 -> 2, 300 -> 3 etc.
+    currentWeatherGroupCode = Math.trunc(weatherCode / 100);
+  }
+
+  console.log(currentWeatherGroupCode);
+
+  // Based on weather group code display correct weather icons
+  switch (currentWeatherGroupCode) {
+    case 2:
+      weatherIcon.setAttribute(
+        "src",
+        "http://openweathermap.org/img/wn/11d@2x.png"
+      );
+      cityName.innerHTML = data.name;
+      mainTemp.innerHTML = data.main.temp;
+      weatherDesc.innerHTML = data.weather[0].main;
+      break;
+
+    case 3:
+      weatherIcon.setAttribute(
+        "src",
+        "http://openweathermap.org/img/wn/09d@2x.png"
+      );
+      cityName.innerHTML = data.name;
+      mainTemp.innerHTML = data.main.temp;
+      weatherDesc.innerHTML = data.weather[0].main;
+      break;
+
+    case 5:
+      weatherIcon.setAttribute(
+        "src",
+        "http://openweathermap.org/img/wn/10d@2x.png"
+      );
+      cityName.innerHTML = data.name;
+      mainTemp.innerHTML = data.main.temp;
+      weatherDesc.innerHTML = data.weather[0].main;
+      break;
+
+    case 6:
+      weatherIcon.setAttribute(
+        "src",
+        "http://openweathermap.org/img/wn/13d@2x.png"
+      );
+      cityName.innerHTML = data.name;
+      mainTemp.innerHTML = data.main.temp;
+      weatherDesc.innerHTML = data.weather[0].main;
+      break;
+
+    case 7:
+      weatherIcon.setAttribute(
+        "src",
+        "http://openweathermap.org/img/wn/50d@2x.png"
+      );
+      cityName.innerHTML = data.name;
+      mainTemp.innerHTML = data.main.temp;
+      weatherDesc.innerHTML = data.weather[0].main;
+      break;
+
+    case 8:
+      weatherIcon.setAttribute(
+        "src",
+        "http://openweathermap.org/img/wn/01d@2x.png"
+      );
+      cityName.innerHTML = data.name;
+      mainTemp.innerHTML = data.main.temp;
+      weatherDesc.innerHTML = data.weather[0].main;
+      break;
+
+    case 9:
+      weatherIcon.setAttribute(
+        "src",
+        "http://openweathermap.org/img/wn/03d@2x.png"
+      );
+      cityName.innerHTML = data.name;
+      mainTemp.innerHTML = data.main.temp;
+      weatherDesc.innerHTML = data.weather[0].main;
+      break;
+  }
+}
