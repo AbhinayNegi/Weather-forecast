@@ -21,7 +21,7 @@ function getEnteredCity(event) {
     alert("Please enter a city");
   } else {
     console.log(searchField.value);
-    addCityToRecentSearch(value);
+    // addCityToRecentSearch(value);
     fetchWeatherData(value);
   }
 }
@@ -89,6 +89,7 @@ function fetchWeatherData(city) {
           throw new Error("city not found");
         }
       }
+      addCityToRecentSearch(city);
       console.log(data);
     })
     .catch((error) => {
