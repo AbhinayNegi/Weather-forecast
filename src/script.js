@@ -106,6 +106,26 @@ function fetchWeatherData(city) {
     });
 }
 
+function fetchWeatherDataGeoLocation(lon, lat) {
+  const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric`;
+
+  fetch(url)
+    .then((response) => response.json())
+    .then((data) => {
+      if (!data.ok) {
+        if (data.cod == 404) {
+          throw new Error("city not found");
+        }
+      }
+      addCityToRecentSearch(data.name);
+      displayWeatherData(data);
+      console.log(data);
+    })
+    .catch((error) => {
+      alert(`Invalid city name: ${city}`);
+    });
+}
+
 currentLocationBtn.addEventListener("click", fetchWeatherBaseOnLocation);
 function fetchWeatherBaseOnLocation(event) {
   const detectedLocation = navigator.geolocation.getCurrentPosition(
@@ -117,14 +137,8 @@ function fetchWeatherBaseOnLocation(event) {
 async function success(position) {
   const lat = position.coords.latitude;
   const long = position.coords.longitude;
-  console.log(lat);
-  console.log(long);
-  const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${long}&appid=${apiKey}&units=metric`;
-
-  const response = await fetch(url);
-  const data = await response.json();
-
-  console.log(data);
+  
+  fetchWeatherDataGeoLocation(long, lat);
 }
 
 function failure() {}
