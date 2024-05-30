@@ -13,6 +13,9 @@ const weatherDisplaySection = document.getElementById("displayWeather");
 const cityName = document.getElementById("cityName");
 const mainTemp = document.getElementById("temp");
 const weatherDesc = document.getElementById("desc");
+const minTemp = document.getElementById("minTemp");
+const maxTemp = document.getElementById("maxTemp");
+const pressure = document.getElementById("pressure");
 
 let recentSearch = [];
 
@@ -162,6 +165,8 @@ function displayWeatherData(data) {
       cityName.innerHTML = data.name;
       mainTemp.innerHTML = data.main.temp;
       weatherDesc.innerHTML = data.weather[0].main;
+      maxTemp.innerHTML = data.main.temp_max;
+      minTemp.innerHTML = data.main.temp_min;
       break;
 
     case 3:
@@ -172,6 +177,9 @@ function displayWeatherData(data) {
       cityName.innerHTML = data.name;
       mainTemp.innerHTML = data.main.temp;
       weatherDesc.innerHTML = data.weather[0].main;
+      maxTemp.innerHTML = data.main.temp_max;
+      minTemp.innerHTML = data.main.temp_min;
+      pressure.innerHTML = data.main.pressure;
       break;
 
     case 5:
@@ -182,6 +190,9 @@ function displayWeatherData(data) {
       cityName.innerHTML = data.name;
       mainTemp.innerHTML = data.main.temp;
       weatherDesc.innerHTML = data.weather[0].main;
+      maxTemp.innerHTML = data.main.temp_max;
+      minTemp.innerHTML = data.main.temp_min;
+      pressure.innerHTML = data.main.pressure;
       break;
 
     case 6:
@@ -192,6 +203,9 @@ function displayWeatherData(data) {
       cityName.innerHTML = data.name;
       mainTemp.innerHTML = data.main.temp;
       weatherDesc.innerHTML = data.weather[0].main;
+      maxTemp.innerHTML = data.main.temp_max;
+      minTemp.innerHTML = data.main.temp_min;
+      pressure.innerHTML = data.main.pressure;
       break;
 
     case 7:
@@ -202,6 +216,9 @@ function displayWeatherData(data) {
       cityName.innerHTML = data.name;
       mainTemp.innerHTML = data.main.temp;
       weatherDesc.innerHTML = data.weather[0].main;
+      maxTemp.innerHTML = data.main.temp_max;
+      minTemp.innerHTML = data.main.temp_min;
+      pressure.innerHTML = data.main.pressure;
       break;
 
     case 8:
@@ -212,6 +229,9 @@ function displayWeatherData(data) {
       cityName.innerHTML = data.name;
       mainTemp.innerHTML = data.main.temp;
       weatherDesc.innerHTML = data.weather[0].main;
+      maxTemp.innerHTML = data.main.temp_max;
+      minTemp.innerHTML = data.main.temp_min;
+      pressure.innerHTML = data.main.pressure;
       break;
 
     case 9:
@@ -222,6 +242,9 @@ function displayWeatherData(data) {
       cityName.innerHTML = data.name;
       mainTemp.innerHTML = data.main.temp;
       weatherDesc.innerHTML = data.weather[0].main;
+      maxTemp.innerHTML = data.main.temp_max;
+      minTemp.innerHTML = data.main.temp_min;
+      pressure.innerHTML = data.main.pressure;
       break;
   }
 }
