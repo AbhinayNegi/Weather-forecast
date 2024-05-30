@@ -99,6 +99,7 @@ function fetchWeatherData(city) {
       }
       addCityToRecentSearch(city);
       displayWeatherData(data);
+      fetchNextFiveDayWeather(city);
       console.log(data);
     })
     .catch((error) => {
@@ -106,6 +107,32 @@ function fetchWeatherData(city) {
     });
 }
 
+async function fetchNextFiveDayWeather(city) {
+
+  url = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${apiKey}&units=metric&cnt=5`;
+
+  try{
+    const response = await fetch(url);
+    const data = await response.json();
+    console.log(data);
+    displayForecast(data);
+  } catch (error) {
+    console.log(error);
+  }
+  
+}
+
+async function fetchNextFiveDayWeatherGeoLocation(lon, lat) {
+  const url = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric&cnt=5`;
+
+  try{
+    const response = await fetch(url);
+    const data = await response.json();
+    console.log(data);
+  } catch (error) {
+    console.log(error);
+  }
+}
 function fetchWeatherDataGeoLocation(lon, lat) {
   const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric`;
 
@@ -119,6 +146,7 @@ function fetchWeatherDataGeoLocation(lon, lat) {
       }
       addCityToRecentSearch(data.name);
       displayWeatherData(data);
+      fetchNextFiveDayWeatherGeoLocation(lon, lat);
       console.log(data);
     })
     .catch((error) => {
@@ -261,4 +289,10 @@ function displayWeatherData(data) {
       pressure.innerHTML = data.main.pressure;
       break;
   }
+}
+
+function displayForecast(data) {
+  data.list.forEach((item) => {
+    console.log(item);
+  })
 }
