@@ -24,7 +24,7 @@
         <input
           type="text"
           id="citySearchField"
-          class="border--green-400 m-4 rounded-xl border px-2 py-1 text-center"
+          class="border--green-400 m-4 rounded-xl border px-2 py-1 text-center sm:w-full md:w-3/4 md:mx-auto lg:w-1/2 lg:mx-auto"
           placeholder="Enter city name"
         />
         <button
@@ -40,7 +40,7 @@
           <h3 id="recentCitiesHeading" class="self-center text-lg">
             Recent Searches
           </h3>
-          <select id="recentCities" class="rounded border border-gray-300 m-4">
+          <select id="recentCities" class="rounded border border-gray-300 m-4 md:w-1/2 md:mx-auto md:text-center lg:w-1/3 lg:mx-auto ld:text-center">
             <option value="Select a City">Select a City</option>
           </select>
           <button
@@ -52,7 +52,7 @@
         </div>
       </section>
 
-      <section id="displayWeather" class="hidden">
+      <section id="displayWeather" class="sm:w-full md:w-3/6 md:mx-auto lg:w-1/3 lg:mx-auto hidden">
         <div
           id="todayWeather"
           class="mr-4 ml-4 py-5 mt-4 bg-blue-500 rounded-lg shadow-2xl"
@@ -87,7 +87,7 @@
         </div>
       </section>
 
-      <section id="forecastSection" class="flex flex-wrap justify-evenly gap-4 hidden">
+      <section id="forecastSection" class="flex flex-wrap flex-col items-center md:flex-row gap-5 md:justify-evenly hidden">
         <div class="mb-4 mt-4 rounded-2xl bg-green-400 p-5 shadow-lg w-40">
           <p class="day mb-2 text-center font-bold text-gray-700 day">Monday</p>
           <img src="" alt="Weather icon" class="weather-icon mx-auto mb-2 h-auto w-10 weather-icon" />
