@@ -84,6 +84,9 @@ function clearSearches(event) {
 window.addEventListener("load", (event) => {
   console.log("Loaded");
   updateRecentSearchDropDown();
+  document.getElementById("forecastSection").classList.add("hidden");
+  document.getElementById("displayWeather").classList.add("hidden");
+
 });
 
 function fetchWeatherData(city) {
@@ -98,6 +101,8 @@ function fetchWeatherData(city) {
         }
       }
       addCityToRecentSearch(city);
+      document.getElementById("forecastSection").classList.remove("hidden");
+      document.getElementById("displayWeather").classList.remove("hidden");
       displayWeatherData(data);
       fetchNextFiveDayWeather(city);
       console.log(data);
@@ -108,10 +113,9 @@ function fetchWeatherData(city) {
 }
 
 async function fetchNextFiveDayWeather(city) {
+  url = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${apiKey}&units=metric`;
 
-  url = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${apiKey}&units=metric&cnt=5`;
-
-  try{
+  try {
     const response = await fetch(url);
     const data = await response.json();
     console.log(data);
@@ -119,16 +123,16 @@ async function fetchNextFiveDayWeather(city) {
   } catch (error) {
     console.log(error);
   }
-  
 }
 
 async function fetchNextFiveDayWeatherGeoLocation(lon, lat) {
-  const url = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric&cnt=5`;
+  const url = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric`;
 
-  try{
+  try {
     const response = await fetch(url);
     const data = await response.json();
     console.log(data);
+    displayForecast(data);
   } catch (error) {
     console.log(error);
   }
@@ -145,6 +149,8 @@ function fetchWeatherDataGeoLocation(lon, lat) {
         }
       }
       addCityToRecentSearch(data.name);
+      document.getElementById("displayWeather").classList.remove("hidden");
+      document.getElementById("forecastSection").classList.remove("hidden");
       displayWeatherData(data);
       fetchNextFiveDayWeatherGeoLocation(lon, lat);
       console.log(data);
@@ -165,7 +171,7 @@ function fetchWeatherBaseOnLocation(event) {
 async function success(position) {
   const lat = position.coords.latitude;
   const long = position.coords.longitude;
-  
+
   fetchWeatherDataGeoLocation(long, lat);
 }
 
@@ -292,7 +298,137 @@ function displayWeatherData(data) {
 }
 
 function displayForecast(data) {
-  data.list.forEach((item) => {
-    console.log(item);
-  })
+  const daysElement = document.getElementsByClassName("day");
+  const weatherIconElements = document.getElementsByClassName("weather-icon");
+  const tempratureElements = document.getElementsByClassName("temprature");
+
+  let prviousAddedDay;
+  let daysElementCounter = 0;
+
+  // Creating array that represent different weather types code group like 2 for 200 - 232 code type
+  const groupCodes = [2, 3, 5, 6, 7, 8, 9];
+  let currentWeatherGroupCode = 0;
+
+  for (let i = 0; i < data.list.length; i++) {
+    // Spliting the only data because the dt_txt contains date and time
+    let forecastDay = getDayOfTheWeek(data.list[i].dt_txt.split(" ")[0]);
+    let currentDay = getCurrentDay();
+
+    // If forecast day is current day then skip it because we dont want today to show up in the next 5 day forecast
+    if (forecastDay === currentDay) {
+      continue;
+    }
+
+    // Currently for a day 4 to 5 timestap weather is returned also. We only want to add one timestamp from every day. So to avoid adding timestamp for same day we are cheking if we have already added the day or not. If not add the day and dont add the timestap weather for the same day.
+    if (forecastDay !== prviousAddedDay) {
+      // Getting the weather code
+      let weatherCode = data.list[i].weather[0].id;
+
+      // Special case if weather code is between 801 to 804 it will be reprsented by number 9
+      if (weatherCode > 800 && weatherCode <= 804) {
+        currentWeatherGroupCode = 9;
+      } else {
+        // We are getting the first digit from the weather code. For example 200 -> 2, 300 -> 3 etc.
+        currentWeatherGroupCode = Math.trunc(weatherCode / 100);
+      }
+
+      // Based on weather group code display correct weather data on UI
+      switch (currentWeatherGroupCode) {
+        case 2:
+          weatherIconElements[daysElementCounter].setAttribute(
+            "src",
+            "http://openweathermap.org/img/wn/11d@2x.png"
+          );
+          tempratureElements[daysElementCounter].innerHTML = data.list[i].main.temp;
+          console.log(data.list[i].main.temp);
+          break;
+
+        case 3:
+          weatherIconElements[daysElementCounter].setAttribute(
+            "src",
+            "http://openweathermap.org/img/wn/09d@2x.png"
+          );
+          tempratureElements[daysElementCounter].innerHTML = data.list[i].main.temp;
+          console.log(data.list[i].main.temp);
+          break;
+
+        case 5:
+          weatherIconElements[daysElementCounter].setAttribute(
+            "src",
+            "http://openweathermap.org/img/wn/10d@2x.png"
+          );
+          tempratureElements[daysElementCounter].innerHTML = data.list[i].main.temp;
+          console.log(data.list[i].main.temp);
+          break;
+
+        case 6:
+          weatherIconElements[daysElementCounter].setAttribute(
+            "src",
+            "http://openweathermap.org/img/wn/13d@2x.png"
+          );
+          tempratureElements[daysElementCounter].innerHTML = data.list[i].main.temp;
+          console.log(data.list[i].main.temp);
+          break;
+
+        case 7:
+          weatherIconElements[daysElementCounter].setAttribute(
+            "src",
+            "http://openweathermap.org/img/wn/50d@2x.png"
+          );
+          tempratureElements[daysElementCounter].innerHTML = data.list[i].main.temp;
+          console.log(data.list[i].main.temp);
+          break;
+
+        case 8:
+          weatherIconElements[daysElementCounter].setAttribute(
+            "src",
+            "http://openweathermap.org/img/wn/01d@2x.png"
+          );
+          tempratureElements[daysElementCounter].innerHTML = data.list[i].main.temp;
+          console.log(data.list[i].main.temp);
+          break;
+
+        case 9:
+          weatherIconElements[daysElementCounter].setAttribute(
+            "src",
+            "http://openweathermap.org/img/wn/03d@2x.png"
+          );
+          tempratureElements[daysElementCounter].innerHTML = data.list[i].main.temp;
+          console.log(data.list[i].main.temp);
+          break;
+      }
+
+      prviousAddedDay = forecastDay;
+      daysElement[daysElementCounter].innerHTML = forecastDay;
+
+      daysElementCounter++;
+    }
+  }
+}
+
+function getDayOfTheWeek(extractedDate) {
+  // The getDay function returns day represented by number from 0-6 below array of string correspond to the correct day in the month
+  const daysOfWeek = [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+  ];
+  const date = new Date(extractedDate);
+
+  const dayOfWeekNumber = date.getDay();
+
+  return daysOfWeek[dayOfWeekNumber];
+}
+
+function getCurrentDay() {
+  const today = new Date();
+  const year = today.getFullYear();
+  const month = today.getMonth() + 1;
+  const day = today.getDate();
+
+  return getDayOfTheWeek(`${year}-${month}-${day}`);
 }
