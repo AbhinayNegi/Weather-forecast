@@ -86,7 +86,6 @@ window.addEventListener("load", (event) => {
   updateRecentSearchDropDown();
   document.getElementById("forecastSection").classList.add("hidden");
   document.getElementById("displayWeather").classList.add("hidden");
-
 });
 
 function fetchWeatherData(city) {
@@ -339,7 +338,8 @@ function displayForecast(data) {
             "src",
             "http://openweathermap.org/img/wn/11d@2x.png"
           );
-          tempratureElements[daysElementCounter].innerHTML = data.list[i].main.temp;
+          tempratureElements[daysElementCounter].innerHTML =
+            data.list[i].main.temp;
           console.log(data.list[i].main.temp);
           break;
 
@@ -348,7 +348,8 @@ function displayForecast(data) {
             "src",
             "http://openweathermap.org/img/wn/09d@2x.png"
           );
-          tempratureElements[daysElementCounter].innerHTML = data.list[i].main.temp;
+          tempratureElements[daysElementCounter].innerHTML =
+            data.list[i].main.temp;
           console.log(data.list[i].main.temp);
           break;
 
@@ -357,7 +358,8 @@ function displayForecast(data) {
             "src",
             "http://openweathermap.org/img/wn/10d@2x.png"
           );
-          tempratureElements[daysElementCounter].innerHTML = data.list[i].main.temp;
+          tempratureElements[daysElementCounter].innerHTML =
+            data.list[i].main.temp;
           console.log(data.list[i].main.temp);
           break;
 
@@ -366,7 +368,8 @@ function displayForecast(data) {
             "src",
             "http://openweathermap.org/img/wn/13d@2x.png"
           );
-          tempratureElements[daysElementCounter].innerHTML = data.list[i].main.temp;
+          tempratureElements[daysElementCounter].innerHTML =
+            data.list[i].main.temp;
           console.log(data.list[i].main.temp);
           break;
 
@@ -375,7 +378,8 @@ function displayForecast(data) {
             "src",
             "http://openweathermap.org/img/wn/50d@2x.png"
           );
-          tempratureElements[daysElementCounter].innerHTML = data.list[i].main.temp;
+          tempratureElements[daysElementCounter].innerHTML =
+            data.list[i].main.temp;
           console.log(data.list[i].main.temp);
           break;
 
@@ -384,7 +388,8 @@ function displayForecast(data) {
             "src",
             "http://openweathermap.org/img/wn/01d@2x.png"
           );
-          tempratureElements[daysElementCounter].innerHTML = data.list[i].main.temp;
+          tempratureElements[daysElementCounter].innerHTML =
+            data.list[i].main.temp;
           console.log(data.list[i].main.temp);
           break;
 
@@ -393,7 +398,8 @@ function displayForecast(data) {
             "src",
             "http://openweathermap.org/img/wn/03d@2x.png"
           );
-          tempratureElements[daysElementCounter].innerHTML = data.list[i].main.temp;
+          tempratureElements[daysElementCounter].innerHTML =
+            data.list[i].main.temp;
           console.log(data.list[i].main.temp);
           break;
       }
