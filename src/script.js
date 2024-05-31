@@ -81,6 +81,7 @@ function clearSearches(event) {
   updateRecentSearchDropDown();
 }
 
+// When page loads remvoe weather data from the page
 window.addEventListener("load", (event) => {
   console.log("Loaded");
   updateRecentSearchDropDown();
@@ -99,12 +100,16 @@ function fetchWeatherData(city) {
           throw new Error("city not found");
         }
       }
+      // Adding city to recent searched city
       addCityToRecentSearch(city);
+
+      // Removing hidden class of tailwind to make weather related UI visible
       document.getElementById("forecastSection").classList.remove("hidden");
       document.getElementById("displayWeather").classList.remove("hidden");
+
+      // Calling function to display weather data
       displayWeatherData(data);
       fetchNextFiveDayWeather(city);
-      console.log(data);
     })
     .catch((error) => {
       alert(`Invalid city name: ${city}`);
@@ -117,25 +122,28 @@ async function fetchNextFiveDayWeather(city) {
   try {
     const response = await fetch(url);
     const data = await response.json();
-    console.log(data);
+
+    // This function will display weather for five days
     displayForecast(data);
   } catch (error) {
     console.log(error);
   }
 }
 
+// Function to fetch five day weather data based on current location
 async function fetchNextFiveDayWeatherGeoLocation(lon, lat) {
   const url = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric`;
 
   try {
     const response = await fetch(url);
     const data = await response.json();
-    console.log(data);
     displayForecast(data);
   } catch (error) {
     console.log(error);
   }
 }
+
+// Fetch only today weather based on location
 function fetchWeatherDataGeoLocation(lon, lat) {
   const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric`;
 
@@ -159,6 +167,7 @@ function fetchWeatherDataGeoLocation(lon, lat) {
     });
 }
 
+// When current location button is clicked then fetch weather based on current location
 currentLocationBtn.addEventListener("click", fetchWeatherBaseOnLocation);
 function fetchWeatherBaseOnLocation(event) {
   const detectedLocation = navigator.geolocation.getCurrentPosition(
@@ -177,14 +186,16 @@ async function success(position) {
 function failure() {}
 
 // Selecting city from the recent search city dropdown list
-
 dropdown.addEventListener("change", (event) => {
   const city = event.target.value;
+  // If a new city is selected from the recent search dorpdown then featch that city's weather data
   if (city !== "Select a City") {
     fetchWeatherData(city);
   }
 });
 
+
+// Function to displauy weather
 function displayWeatherData(data) {
   // Creating array that represent different weather types code group like 2 for 200 - 232 code type
   const groupCodes = [2, 3, 5, 6, 7, 8, 9];
